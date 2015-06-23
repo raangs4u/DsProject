@@ -88,8 +88,8 @@ public class LinkedList<E> {
         size = size-1;
     }
 
-    public void printList(Node<E> node) {
-        Node<E> tmp = node;
+    public void printList() {
+        Node<E> tmp = head;
         while (tmp!=null) {
             System.out.println(tmp.getElement());
             tmp = tmp.getNext();
