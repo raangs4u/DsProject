@@ -14,14 +14,16 @@ public class ReverseLinkedList {
             list.addFirst(i);
         }
 
-        Node<Integer> head = reverseByRecursive(list.getHead());
+        //Node<Integer> head = reverseByRecursive(list.getHead());
         //list.printList();
         //Node<Integer> head = reverseByIterative(list.getHead());
-        list.setHead(head);
+        /*list.setHead(head);
         list.printList();
         head = reverseByCreatingNewList(list.getHead());
         list.setHead(head);
-        list.printList();
+        list.printList();*/
+
+        printReverseOfListByRecursive(list.getHead());
 
     }
 
@@ -79,5 +81,11 @@ public class ReverseLinkedList {
         first.getNext().setNext(first);
         first.setNext(null);
         return rest;
+    }
+
+    public static void printReverseOfListByRecursive(Node<Integer> head) {
+        if (head == null) return;
+        printReverseOfListByRecursive(head.getNext());
+        System.out.println(head.getElement());
     }
 }
