@@ -20,7 +20,7 @@ public class MoveLastElementToFirst {
     }
     public static Node<Integer> moveLastToFirst(Node<Integer> head) {
         Node<Integer> current = head;
-        while (current!=null && current.getNext()!=null) {
+        while (current!=null && current.getNext().getNext()!=null) {
             current = current.getNext();
         }
 
