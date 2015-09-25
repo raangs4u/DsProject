@@ -41,7 +41,7 @@ public class LongestPalindromeByBottomUp {
 
         while (x<y){
             if (s[x]==s[y]){
-                strBuff.append(c[x]);
+                strBuff.append(s[x]);
                 x++;
                 y--;
             } else if (c[x][y-1]>c[x+1][y]){
@@ -50,13 +50,13 @@ public class LongestPalindromeByBottomUp {
                 x++;
             }
         }
-        /*StringBuffer strBuffCopy = new StringBuffer(strBuff);
+        StringBuffer strBuffCopy = new StringBuffer(strBuff);
         String str = strBuffCopy.reverse().toString();
         if(x == y){
             strBuff.append(s[x]+str);
         } else {
             strBuff.append(str);
-        }*/
+        }
         System.out.println(strBuff.toString());
         for (int i = 0; i <n ; i++) {
             for (int j = 0; j <n ; j++) {
