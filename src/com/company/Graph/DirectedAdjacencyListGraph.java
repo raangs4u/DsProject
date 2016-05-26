@@ -1,5 +1,6 @@
 package com.company.Graph;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -10,6 +11,22 @@ import java.util.Set;
 public class DirectedAdjacencyListGraph implements Graph {
 
     private Map<Integer, Set<Integer>> adjList;
+
+    private Map<Integer, Integer> inDegree;
+
+    public DirectedAdjacencyListGraph() {
+        adjList = new HashMap<>();
+        inDegree = new HashMap<>();
+    }
+
+    public DirectedAdjacencyListGraph(int size) {
+        adjList = new HashMap<>(size);
+        inDegree = new HashMap<>(size);
+        for (int i = 0; i <size ; i++) {
+            adjList.put(i, new HashSet<>());
+            inDegree.put(i,0);
+        }
+    }
 
     @Override
     public Set<Integer> getVertices() {
@@ -27,21 +44,23 @@ public class DirectedAdjacencyListGraph implements Graph {
     }
 
     @Override
-    public void insertVertex(Integer v) {
+    public void addVertex(Integer v) {
         adjList.put(v, new HashSet<>());
+        inDegree.put(v,0);
     }
 
     @Override
-    public void insertEdge(Integer u, Integer v) {
+    public void addEdge(Integer u, Integer v) {
         if (!adjList.containsKey(u)) {
-            insertVertex(u);
+            addVertex(u);
         }
 
         if (!adjList.containsKey(v)) {
-            insertVertex(v);
+            addVertex(v);
         }
         
         adjList.get(u).add(v);
+        inDegree.put(v, inDegree.get(v)+1);
     }
 
     @Override
@@ -52,6 +71,7 @@ public class DirectedAdjacencyListGraph implements Graph {
     @Override
     public void removeEdge(Integer u, Integer v) {
         adjList.get(u).remove(v);
+        inDegree.put(v, inDegree.get(v)-1);
     }
 
     @Override
@@ -67,5 +87,14 @@ public class DirectedAdjacencyListGraph implements Graph {
     @Override
     public Integer getEdgeCount() {
         return 0;
+    }
+
+    @Override
+    public Set<Integer> getAdjacentVertices(Integer v) {
+        return adjList.get(v);
+    }
+
+    public int getInDegree(int v) {
+        return inDegree.get(v);
     }
 }

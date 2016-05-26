@@ -14,9 +14,9 @@ public interface Graph {
 
     boolean areAdjacent(Integer u, Integer v);
 
-    void insertVertex(Integer v);
+    void addVertex(Integer v);
 
-    void insertEdge(Integer u, Integer v);
+    void addEdge(Integer u, Integer v);
 
     void removeVertex(Integer v);
 
@@ -27,5 +27,7 @@ public interface Graph {
     Integer getVertexCount();
 
     Integer getEdgeCount();
+
+    Set<Integer> getAdjacentVertices(Integer v);
 
 }

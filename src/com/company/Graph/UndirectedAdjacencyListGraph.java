@@ -12,6 +12,13 @@ public class UndirectedAdjacencyListGraph implements Graph {
 
     private Map<Integer, Set<Integer>> adjList;
 
+    public UndirectedAdjacencyListGraph(int size) {
+        adjList = new HashMap<>(size);
+        for (int i = 0; i <size ; i++) {
+            adjList.put(i, new HashSet<>());
+        }
+    }
+
     public UndirectedAdjacencyListGraph() {
         adjList = new HashMap<>();
     }
@@ -36,18 +43,18 @@ public class UndirectedAdjacencyListGraph implements Graph {
     }
 
     @Override
-    public void insertVertex(Integer v) {
+    public void addVertex(Integer v) {
         adjList.put(v, new HashSet<>());
     }
 
     @Override
-    public void insertEdge(Integer u, Integer v) {
+    public void addEdge(Integer u, Integer v) {
         if (!adjList.containsKey(u)) {
-            insertVertex(u);
+            addVertex(u);
         }
 
         if (!adjList.containsKey(v)) {
-            insertVertex(v);
+            addVertex(v);
         }
 
         adjList.get(u).add(v);
@@ -88,5 +95,10 @@ public class UndirectedAdjacencyListGraph implements Graph {
         }
 
         return size/2;
+    }
+
+    @Override
+    public Set<Integer> getAdjacentVertices(Integer v) {
+        return adjList.get(v);
     }
 }
