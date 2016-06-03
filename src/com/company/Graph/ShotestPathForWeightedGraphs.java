@@ -1,6 +1,8 @@
 package com.company.Graph;
 
-import java.util.Set;
+import com.company.Tree.MinHeap;
+
+import java.util.*;
 
 /**
  * @author rmandada
@@ -13,11 +15,11 @@ public class ShotestPathForWeightedGraphs {
         graph.addEdge(0,1,6);
         graph.addEdge(0,4,7);
         graph.addEdge(1,2,5);
-        graph.addEdge(1,3,-4);
+        graph.addEdge(1,3,4);
         graph.addEdge(1,4,8);
-        graph.addEdge(2,1,-2);
+        graph.addEdge(2,1,2);
         graph.addEdge(3,0,2);
-        graph.addEdge(4,2,-3);
+        graph.addEdge(4,2,3);
         graph.addEdge(4,3,9);
 
         double[] d = new double[V];
@@ -31,6 +33,12 @@ public class ShotestPathForWeightedGraphs {
             }
         } else {
             System.out.println("Source can reach a negative-weighted cycle");
+        }
+
+        System.out.println("By Dijkstras: ");
+        List<Vertex> vertices = shortestPathByDijkstrasWithHeap(graph, 0);
+        for (int i = 0; i <V ; i++) {
+            System.out.println("For "+ i + " : weight = " + vertices.get(i).key);
         }
     }
 
@@ -78,5 +86,82 @@ public class ShotestPathForWeightedGraphs {
         }
 
         return true;
+    }
+
+    public static List<Vertex> shortestPathByDijkstras(DirectedWeightedGraph graph, int s) {
+        int V = graph.getVertexCount();
+        //initializeSingleSourceGraph(graph, s, d, pi);
+        PriorityQueue<Vertex> queue = new PriorityQueue<>(V);
+        List<Vertex> vertexes = new ArrayList<>();
+        for (int i=0;i<V;i++) {
+            vertexes.add(new Vertex(i, Double.POSITIVE_INFINITY, -1));
+        }
+
+        vertexes.get(s).key = 0.0;
+        queue.addAll(vertexes);
+
+        while (!queue.isEmpty()) {
+            Vertex v = queue.poll();
+            for (Edge e :graph.getOutGoingEdges(v.value)){
+                Vertex u = vertexes.get(e.getOther(v.value));
+                if (u.key > v.key + e.weight) {
+                    u.key = v.key + e.weight;
+                    u.pi = v.value;
+                }
+            }
+        }
+
+        return vertexes;
+
+    }
+
+    public static List<Vertex> shortestPathByDijkstrasWithHeap(DirectedWeightedGraph graph, int s) {
+        int V = graph.getVertexCount();
+
+
+        Vertex[] vertexes = new Vertex[V];
+        for (int i=0;i<V;i++) {
+            vertexes[i] = new Vertex(i, Double.POSITIVE_INFINITY, -1);
+        }
+        vertexes[s].key = 0.0;
+        Vertex[] vertices1 = vertexes.clone();
+        MinHeap<Vertex> heap = new MinHeap<>(vertexes, V, 100);
+        heap.buildHeap();
+
+        while (!heap.isEmpty()) {
+            Vertex v= heap.removeMin();
+            for (Edge e :graph.getOutGoingEdges(v.value)){
+                Vertex u = vertices1[e.getOther(v.value)];
+                if (u.key > v.key + e.weight) {
+                    u.key = v.key + e.weight;
+                    u.pi = v.value;
+
+                }
+            }
+        }
+
+        return Arrays.asList(vertexes);
+    }
+
+    static class Vertex implements Comparable<Vertex>{
+        int value;
+        Double key ;
+        int pi;
+
+        public Vertex(int value, Double key, int pi) {
+            this.value = value;
+            this.key = key;
+            this.pi = pi;
+        }
+
+        @Override
+        public int compareTo(Vertex o) {
+            return key.compareTo(o.key);
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(value);
+        }
     }
 }

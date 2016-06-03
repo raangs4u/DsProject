@@ -1,5 +1,8 @@
 package com.company.Tree;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @author rmandada
  */
@@ -12,6 +15,10 @@ public class MinHeap<E extends Comparable<E>> {
         heap = h;
         n = num;
         size = max;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
     }
 
     public int heapSize() {
