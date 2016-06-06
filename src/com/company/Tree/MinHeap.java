@@ -1,13 +1,14 @@
 package com.company.Tree;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author rmandada
  */
 public class MinHeap<E extends Comparable<E>> {
     private E[] heap;
+    private Map<E, Integer> position;
     private int size;
     private int n;
 
@@ -15,10 +16,14 @@ public class MinHeap<E extends Comparable<E>> {
         heap = h;
         n = num;
         size = max;
+        position = new HashMap<>();
+        for (int i = 0; i <n ; i++) {
+            position.put(heap[i], i);
+        }
     }
 
     public boolean isEmpty() {
-        return size == 0;
+        return n == 0;
     }
 
     public int heapSize() {
@@ -64,10 +69,11 @@ public class MinHeap<E extends Comparable<E>> {
             int curr = n++;
             heap[curr] = val;
 
-            while ((curr!=0) && (heap[curr].compareTo(heap[parent(curr)]) < 0)) {
+            siftUp(curr);
+            /*while ((curr!=0) && (heap[curr].compareTo(heap[parent(curr)]) < 0)) {
                 swap(heap, curr, parent(curr));
                 curr = parent(curr);
-            }
+            }*/
         }
     }
 
@@ -91,10 +97,7 @@ public class MinHeap<E extends Comparable<E>> {
             } else {
                 swap(heap, pos, --n);
 
-                while ((pos >0) && (heap[pos].compareTo(heap[parent(pos)]) < 0)) {
-                    swap(heap, pos, parent(pos));
-                    pos = parent(pos);
-                }
+                siftUp(pos);
 
                 if (n!=0) {
                     siftDown(pos);
@@ -105,7 +108,12 @@ public class MinHeap<E extends Comparable<E>> {
         return null;
     }
 
-
+    public void siftUp(int pos) {
+        while ((pos > 0) && (heap[pos].compareTo(heap[parent(pos)]) < 0)) {
+            swap(heap, pos, parent(pos));
+            pos = parent(pos);
+        }
+    }
 
     private void siftDown(int pos) {
         if (pos >=0 && pos < n) {
@@ -126,9 +134,15 @@ public class MinHeap<E extends Comparable<E>> {
     }
 
     private void swap(E[] arr, int i, int j) {
+        position.put(arr[i], j);
+        position.put(arr[j], i);
         E temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
+    }
+
+    public int indexOf(E v) {
+        return position.containsKey(v) ? position.get(v) : -1;
     }
 
 }

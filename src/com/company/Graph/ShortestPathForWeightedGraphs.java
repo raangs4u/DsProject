@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * @author rmandada
  */
-public class ShotestPathForWeightedGraphs {
+public class ShortestPathForWeightedGraphs {
 
     public static void main(String[] args) {
         int V = 5;
@@ -35,13 +35,26 @@ public class ShotestPathForWeightedGraphs {
             System.out.println("Source can reach a negative-weighted cycle");
         }
 
+        System.out.println();
         System.out.println("By Dijkstras: ");
         List<Vertex> vertices = shortestPathByDijkstrasWithHeap(graph, 0);
         for (int i = 0; i <V ; i++) {
             System.out.println("For "+ i + " : weight = " + vertices.get(i).key);
+            getPath(vertices, 0, vertices.get(i));
+            System.out.println();
         }
     }
 
+    public static void getPath(List<Vertex> vertexes, int s, Vertex v) {
+        if (s==v.value) {
+            System.out.print(s + " ");
+        } else if (v.pi == -1) {
+            System.out.println("No path from "+ s+ " to " + v.value+ " exists");
+        } else {
+            getPath(vertexes, s, vertexes.get(v.pi));
+            System.out.print(v.value + " ");
+        }
+    }
     public static void getPath(int[] pi, int s, int v) {
         if (v==s) {
             System.out.print(s + " ");
@@ -135,12 +148,13 @@ public class ShotestPathForWeightedGraphs {
                 if (u.key > v.key + e.weight) {
                     u.key = v.key + e.weight;
                     u.pi = v.value;
-
+                    int pos = heap.indexOf(u);
+                    heap.siftUp(pos);
                 }
             }
         }
 
-        return Arrays.asList(vertexes);
+        return Arrays.asList(vertices1);
     }
 
     static class Vertex implements Comparable<Vertex>{
