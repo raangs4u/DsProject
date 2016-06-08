@@ -10,4 +10,8 @@ public class Pair {
         this.first = first;
         this.second = second;
     }
+
+    public boolean equals(Pair p) {
+        return p.first == this.first && p.second == this.second;
+    }
 }
