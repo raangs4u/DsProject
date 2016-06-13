@@ -22,6 +22,10 @@ public class MinHeap<E extends Comparable<E>> {
         }
     }
 
+    public E getMin() {
+        return heap[0];
+    }
+
     public boolean isEmpty() {
         return n == 0;
     }
@@ -115,7 +119,7 @@ public class MinHeap<E extends Comparable<E>> {
         }
     }
 
-    private void siftDown(int pos) {
+    public void siftDown(int pos) {
         if (pos >=0 && pos < n) {
             while (!isLeaf(pos)) {
                 int j = leftChild(pos);
