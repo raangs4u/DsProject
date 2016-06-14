@@ -74,10 +74,6 @@ public class MinHeap<E extends Comparable<E>> {
             heap[curr] = val;
 
             siftUp(curr);
-            /*while ((curr!=0) && (heap[curr].compareTo(heap[parent(curr)]) < 0)) {
-                swap(heap, curr, parent(curr));
-                curr = parent(curr);
-            }*/
         }
     }
 
