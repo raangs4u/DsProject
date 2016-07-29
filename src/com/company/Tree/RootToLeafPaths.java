@@ -1,6 +1,7 @@
 package com.company.Tree;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * @author rmandada
@@ -23,8 +24,9 @@ public class RootToLeafPaths {
         n4.left = n7;
         n4.right = n5;
         //rootToLeaf(n3, res,new ArrayList<>());
-        rootToLeafWithSum(n3, res, new ArrayList<>(), 11);
-        System.out.println(res.size());
+        //rootToLeafWithSum(n3, res, new ArrayList<>(), 11);
+        //System.out.println(res.size());
+        rootToLeafPathsIterative(n3);
     }
 
     public static void rootToLeaf(TreeNode root, ArrayList<ArrayList<Integer>> res, ArrayList<Integer> temp) {
@@ -60,5 +62,31 @@ public class RootToLeafPaths {
         rootToLeafWithSum(root.left, res, temp, sum);
         rootToLeafWithSum(root.right, res, temp, sum);
         temp.remove(temp.size()-1);
+    }
+
+    public static void rootToLeafPathsIterative(TreeNode root) {
+        if (root==null) {
+            return;
+        }
+
+        ArrayList<ArrayList<TreeNode>> res = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        //stack.push(root);
+        TreeNode current = root;
+        while (!stack.isEmpty() || current != null) {
+            if (current != null) {
+                stack.push(current);
+                //System.out.println(current.val);
+                current = current.left;
+            } else {
+                TreeNode node = stack.pop();
+                if (node.right== null) {
+                    res.add(new ArrayList<>(stack));
+                    current = null;
+                } else {
+                    current = node.right;
+                }
+            }
+        }
     }
 }

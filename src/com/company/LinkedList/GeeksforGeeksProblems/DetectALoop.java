@@ -18,7 +18,8 @@ public class DetectALoop {
             cu = cu.getNext();
         }
         cu.setNext(list.getHead());
-        detectLoopByTwoPointers(list.getHead());
+        Node<Integer> head1 = new Node<>(5, list.getHead());
+        detectLoopByTwoPointers(head1);
     }
 
     public static void detectLoopByTwoPointers(Node<Integer> head) {
@@ -30,8 +31,19 @@ public class DetectALoop {
             fast = fast.getNext().getNext();
             if(slow == fast) {
                 System.out.println("Found a loop");
+                removeLoop(slow, head);
+                detectLoopByTwoPointers(head);
                 break;
             }
         }
+    }
+
+    public static void removeLoop(Node<Integer> loopNode, Node<Integer> head) {
+        while (loopNode.getNext() != head.getNext()) {
+            loopNode = loopNode.getNext();
+            head = head.getNext();
+        }
+
+        loopNode.setNext(null);
     }
 }
